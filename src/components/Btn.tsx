@@ -49,6 +49,7 @@ const BtnButton = styled.button`
   border: 0;
   cursor: pointer;
   font-size: var(--fs2);
+  outline: none;
   padding: 10px 30px;
   -webkit-appearance: none;
   &:hover { background-color: rgba(0,0,0,0.1); }

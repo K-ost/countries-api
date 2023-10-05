@@ -7,6 +7,8 @@ import Skelet from "../components/Skelet"
 import styled from "styled-components"
 import Btn from "../components/Btn"
 
+const itemOnPage = 8
+
 // styles
 const Loadmore = styled.div`
   display: flex;
@@ -45,6 +47,7 @@ const MainPage: React.FC = () => {
     })
     setList(searchedList)
   }, [search, select])
+  
 
   return (
     <div>
@@ -52,11 +55,11 @@ const MainPage: React.FC = () => {
 
       <div className="grid grid-4">
         {list.map(el => <Item key={el.name.common} el={el} />).slice(0,currentPage)}
-        {load && Array(8).fill(8).map((__, index) => <Skelet key={index} />)}
+        {load && Array(itemOnPage).fill(itemOnPage).map((__, index) => <Skelet key={index} />)}
       </div>
 
-      {list.length > 0 && <Loadmore>
-        <Btn btn name="Loadmore" handler={() => setCurrentPage(prev => prev += 8)} />
+      {(list.length > itemOnPage && (list.length > currentPage)) && <Loadmore>
+        <Btn btn name="Loadmore" handler={() => setCurrentPage(prev => prev += itemOnPage)} />
       </Loadmore>}
 
       {!list.length && <div className="error">There are no countries matching your filter parameters. Try to change your parameters.</div>}
