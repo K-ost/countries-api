@@ -52,7 +52,7 @@ const MainPage: React.FC = () => {
 
       <div className="grid grid-4">
         {list.map(el => <Item key={el.name.common} el={el} />).slice(0,currentPage)}
-        {load && Array(8).fill(8).map((el, index) => <Skelet key={index} />)}
+        {load && Array(8).fill(8).map((__, index) => <Skelet key={index} />)}
       </div>
 
       {list.length > 0 && <Loadmore>
