@@ -1,3 +1,4 @@
+// Fetch data
 export async function getData<T>(endpoint: string): Promise<T> {
   try {
     const response = await fetch(endpoint)
