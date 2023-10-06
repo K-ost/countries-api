@@ -7,6 +7,9 @@ interface IItem {
 }
 
 // Styled
+const ItemGrid = styled.div`
+  min-height: 100%;
+`
 const Itembox = styled(Link)`
   background: var(--color-header);
   border-radius: 4px;
@@ -46,7 +49,7 @@ const Item: React.FC<IItem> = ({ el }) => {
   const slug = el.cca3.toLowerCase()
   
   return (
-    <div>
+    <ItemGrid>
       <Itembox to={slug}>
         <ItemImg src={el.flags.svg} alt="" />
         <ItemDetails>
@@ -56,7 +59,7 @@ const Item: React.FC<IItem> = ({ el }) => {
           <span>Capital: {el.capital}</span>
         </ItemDetails>
       </Itembox>
-    </div>
+    </ItemGrid>
   )
 }
 
