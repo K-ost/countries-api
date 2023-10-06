@@ -7,15 +7,13 @@ interface IItem {
 }
 
 // Styled
-const ItemGrid = styled.div`
-  min-height: 100%;
-`
 const Itembox = styled(Link)`
   background: var(--color-header);
   border-radius: 4px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.2);
   color: var(--color-text);
   display: block;
+  min-height: 100%;
   text-decoration: none;
   transition: var(--animate);
   &:hover {
@@ -49,7 +47,7 @@ const Item: React.FC<IItem> = ({ el }) => {
   const slug = el.cca3.toLowerCase()
   
   return (
-    <ItemGrid>
+    <div>
       <Itembox to={slug}>
         <ItemImg src={el.flags.svg} alt="" />
         <ItemDetails>
@@ -59,7 +57,7 @@ const Item: React.FC<IItem> = ({ el }) => {
           <span>Capital: {el.capital}</span>
         </ItemDetails>
       </Itembox>
-    </ItemGrid>
+    </div>
   )
 }
 
