@@ -73,6 +73,7 @@ Error generating stack: `+o.message+`
   box-shadow: 0 2px 16px rgba(0,0,0,0.2);
   color: var(--color-text);
   display: block;
+  min-height: 100%;
   text-decoration: none;
   transition: var(--animate);
   &:hover {
