@@ -1,29 +1,12 @@
 import { useParams } from "react-router-dom";
 import { CountryType, DetailsListItem } from "../types";
 import BordersList from "../components/BordersList";
-import styled from "styled-components";
 import Btn from "../components/Btn";
 import useGetData from "../hooks/getData";
 import Page404 from "../components/Page404";
 import { objectToString } from "../utils/utils";
 import DetailsList from "../components/DetailsList";
-
-// Styles
-const BackSection = styled.div`
-  display: flex;
-  margin: 0 0 45px;
-  @media screen and (max-width: 980px) {
-    margin: 0 0 30px;
-  }
-`;
-const ImgSection = styled.div`
-  img {
-    display: block;
-  }
-  @media screen and (max-width: 980px) {
-    margin: 0 0 30px;
-  }
-`;
+import Image from "../components/Image";
 
 const DetailPage = (): JSX.Element => {
   const { slug } = useParams();
@@ -54,17 +37,14 @@ const DetailPage = (): JSX.Element => {
 
   return (
     <div>
-      <BackSection>
+      <div className="back_section">
         <Btn url="/" name="Back" size="large" back />
-      </BackSection>
+      </div>
       <div className="grid grid-2">
-        <ImgSection>
-          <img src={country.flags.svg} alt="" />
-        </ImgSection>
+        <Image img={country.flags.svg} />
         <div>
           <h1>{country.name.common}</h1>
           <DetailsList list={detailedList} />
-
           <BordersList
             param={country && country.borders && country.borders.join(",")}
           />

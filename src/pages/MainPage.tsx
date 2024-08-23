@@ -2,20 +2,12 @@ import { useEffect, useState } from "react";
 import { CountryType } from "../types";
 import Item from "../components/Item";
 import Filter from "../components/Filter";
-import styled from "styled-components";
 import Btn from "../components/Btn";
 import useGetData from "../hooks/getData";
 import { itemsOnPage } from "../constants";
 import SkeletsMain from "../components/SkeletsMain";
 import { searchInArray } from "../utils/utils";
 import NotFound from "../components/NotFound";
-
-// styles
-const Loadmore = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 0 0 70px;
-`;
 
 const MainPage = (): JSX.Element => {
   const [copyList, setCopyList] = useState<CountryType[]>([]);
@@ -57,13 +49,13 @@ const MainPage = (): JSX.Element => {
       {isSuccess &&
         data.length > itemsOnPage &&
         copyList.length > currentPage && (
-          <Loadmore>
+          <div className="loadmore">
             <Btn
               btn
               name="Loadmore"
               handler={() => setCurrentPage((prev) => (prev += itemsOnPage))}
             />
-          </Loadmore>
+          </div>
         )}
 
       {isSuccess && !copyList.length && <NotFound />}
