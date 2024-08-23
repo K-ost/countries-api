@@ -83,6 +83,7 @@ const Filter = (props: FilterProps): JSX.Element => {
           search(e.target.value)
         }
         $theme={context!.theme}
+        data-testid="searchTest"
       />
 
       <Select
