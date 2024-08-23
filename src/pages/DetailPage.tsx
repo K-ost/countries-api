@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CountryType } from "../types";
+import { CountryType, DetailsListItem } from "../types";
 import BordersList from "../components/BordersList";
 import styled from "styled-components";
 import Btn from "../components/Btn";
-import { SkeletLine } from "../components/Skelet";
+import useGetData from "../hooks/getData";
+import Page404 from "../components/Page404";
+import { objectToString } from "../utils/utils";
+import DetailsList from "../components/DetailsList";
 
 // Styles
 const BackSection = styled.div`
@@ -22,74 +24,33 @@ const ImgSection = styled.div`
     margin: 0 0 30px;
   }
 `;
-const DetailList = styled.ul`
-  column-count: 2;
-  column-gap: 30;
-  margin: 0 0 70px;
-  padding: 0;
-  @media screen and (max-width: 980px) {
-    margin: 0 0 30px;
-  }
-  @media screen and (max-width: 700px) {
-    column-count: auto;
-    column-gap: auto;
-  }
-`;
-const DetailItem = styled.li`
-  display-inline: block;
-  list-style: none;
-  margin: 0 0 10px;
-  width: 100%;
-  b {
-    font-weight: 600;
-    margin-right: 8px;
-  }
-`;
 
 const DetailPage = (): JSX.Element => {
   const { slug } = useParams();
-  const [country, setCountry] = useState<CountryType | null>(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await getData<CountryType[]>(
-  //       `https://restcountries.com/v3.1/alpha/${slug}`
-  //     );
-  //     setCountry(data[0]);
-  //   };
-  //   fetchData();
-  // }, [slug]);
+  const { data, isLoading, isError } = useGetData<CountryType[]>({
+    key: ["detail"],
+    uri: `/alpha/${slug}`,
+  });
 
-  if (!country)
-    return (
-      <>
-        <SkeletLine
-          $size={50}
-          style={{ width: "100px", marginBottom: "30px" }}
-        />
-        <div className="grid grid-2">
-          <SkeletLine $size={300} />
-          <div>
-            <SkeletLine $size={30} />
-            <SkeletLine />
-            <SkeletLine />
-            <SkeletLine />
-            <SkeletLine />
-          </div>
-        </div>
-      </>
-    );
+  if (isLoading) return <Page404 />;
+  if (isError) return <div>Server error</div>;
 
-  // Objects
-  const nativeNames = Object.values(country.name.nativeName)
-    .map((el) => el.official)
-    .join(", ");
-  const currencies = Object.values(country.currencies)
-    .map((el) => el.name)
-    .join(", ");
-  const languages = Object.values(country.languages)
-    .map((el) => el)
-    .join(", ");
+  const country = data![0];
+
+  const detailedList: DetailsListItem[] = [
+    {
+      key: "Native Name",
+      value: objectToString(country.name.nativeName, "official"),
+    },
+    { key: "Population", value: country.population.toString() },
+    { key: "Region", value: country.region },
+    { key: "Sub Region", value: country.subregion },
+    { key: "Capital", value: country.capital[0] },
+    { key: "Top Level Domain", value: country.tld.join(", ") },
+    { key: "Currencies", value: objectToString(country.currencies, "name") },
+    { key: "Languages", value: objectToString(country.languages, null) },
+  ];
 
   return (
     <div>
@@ -102,33 +63,7 @@ const DetailPage = (): JSX.Element => {
         </ImgSection>
         <div>
           <h1>{country.name.common}</h1>
-
-          <DetailList>
-            <DetailItem>
-              <b>Native Name:</b> {nativeNames}
-            </DetailItem>
-            <DetailItem>
-              <b>Population:</b> {country.population}
-            </DetailItem>
-            <DetailItem>
-              <b>Region:</b> {country.region}
-            </DetailItem>
-            <DetailItem>
-              <b>Sub Region:</b> {country.subregion}
-            </DetailItem>
-            <DetailItem>
-              <b>Capital:</b> {country.capital}
-            </DetailItem>
-            <DetailItem>
-              <b>Top Level Domain:</b> {country.tld.join(", ")}
-            </DetailItem>
-            <DetailItem>
-              <b>Currencies:</b> {currencies}
-            </DetailItem>
-            <DetailItem>
-              <b>Languages:</b> {languages}
-            </DetailItem>
-          </DetailList>
+          <DetailsList list={detailedList} />
 
           <BordersList
             param={country && country.borders && country.borders.join(",")}

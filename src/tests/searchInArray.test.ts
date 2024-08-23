@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { searchInArray } from "../utils/utils";
-import { mockedCountry } from "./factories";
+import { objectToString, searchInArray } from "../utils/utils";
+import { mockedCountry, testedObject, testedObjectSimple } from "./factories";
 
 const countries = mockedCountry.buildList(3);
 
-describe("searchInArray", () => {
+describe("Utils", () => {
   it("Search request is empty", () => {
     const list = searchInArray(countries, "ddd", "");
     expect(list).toHaveLength(0);
@@ -28,5 +28,20 @@ describe("searchInArray", () => {
   it("Region is empty", () => {
     const list = searchInArray(countries, "", "africa");
     expect(list).toHaveLength(0);
+  });
+
+  it("objectToString - internal object", () => {
+    const result = objectToString(testedObject, "name");
+    expect(result).toStrictEqual("first, second, third");
+  });
+
+  it("objectToString - simple object", () => {
+    const result = objectToString(testedObjectSimple, null);
+    expect(result).toStrictEqual("first, second, third");
+  });
+
+  it("objectToString - internal object second key", () => {
+    const result = objectToString(testedObject, "age");
+    expect(result).toStrictEqual("45, 32, 27");
   });
 });

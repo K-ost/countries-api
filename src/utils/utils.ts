@@ -15,3 +15,9 @@ export const searchInArray = (
     }
   });
 };
+
+export const objectToString = (obj: any, field: string | null): string => {
+  return Object.values(obj)
+    .map((el: any) => (field ? el[field] : el))
+    .join(", ");
+};

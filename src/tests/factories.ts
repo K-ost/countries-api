@@ -91,3 +91,15 @@ export const mockedCountry = Factory.Sync.makeFactory<CountryType>({
     regex: "regex",
   },
 });
+
+export const testedObject = {
+  first: { name: "first", age: 45 },
+  second: { name: "second", age: 32 },
+  third: { name: "third", age: 27 },
+};
+
+export const testedObjectSimple = {
+  first: "first",
+  second: "second",
+  third: "third",
+};
