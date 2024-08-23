@@ -1,70 +1,74 @@
-import { useEffect, useState } from "react"
-import { getData } from "../api/fetch"
-import { CountryType } from "../types"
-import Item from "../components/Item"
-import Filter from "../components/Filter"
-import Skelet from "../components/Skelet"
-import styled from "styled-components"
-import Btn from "../components/Btn"
-
-const itemOnPage = 8
+import { useEffect, useState } from "react";
+import { CountryType } from "../types";
+import Item from "../components/Item";
+import Filter from "../components/Filter";
+import styled from "styled-components";
+import Btn from "../components/Btn";
+import useGetData from "../hooks/getData";
+import { itemsOnPage } from "../constants";
+import SkeletsMain from "../components/SkeletsMain";
+import { searchInArray } from "../utils/utils";
+import NotFound from "../components/NotFound";
 
 // styles
 const Loadmore = styled.div`
   display: flex;
   justify-content: center;
   margin: 0 0 70px;
-`
+`;
 
-const MainPage: React.FC = () => {
-  const [list, setList] = useState<CountryType[]>([])
-  const [load, setLoad] = useState<boolean>(true)
-  const [copyList, setCopyList] = useState<CountryType[]>([])
-  const [search, setSearch] = useState<string>('')
-  const [select, setSelect] = useState<string>('')
-  const [currentPage, setCurrentPage] = useState(8)
-  
+const MainPage = (): JSX.Element => {
+  const [copyList, setCopyList] = useState<CountryType[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [select, setSelect] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(8);
+
+  const { data, error, isLoading, isSuccess } = useGetData<CountryType[]>({
+    key: ["countries"],
+    uri: "/all",
+  });
+
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getData<CountryType[] | any>('https://restcountries.com/v3.1/all')
-      if (!data.message) {
-        setList(data)
-        setCopyList(data)
-        setLoad(false)
-      }
+    if (isSuccess) {
+      setCopyList(data);
     }
-    fetchData()
-  }, [])
+  }, [data, isSuccess]);
 
-  // Search
   useEffect(() => {
-    const searchedList = copyList.filter(el => {
-      const searchMatch = el.name.common.toLowerCase().includes(search.toLowerCase())
-      const selectMatch = el.region.toLowerCase().includes(select.toLowerCase())
-      if ((searchMatch) && (selectMatch)) {
-        return el
-      }
-    })
-    setList(searchedList)
-  }, [search, select])
-  
+    if (isSuccess) {
+      const searchedList = searchInArray(data, search, select);
+      setCopyList(searchedList);
+    }
+  }, [search, select, isSuccess, data]);
+
+  if (error) return <p>Server error.</p>;
 
   return (
     <div>
       <Filter search={setSearch} select={setSelect} />
 
       <div className="grid grid-4">
-        {list.map(el => <Item key={el.name.common} el={el} />).slice(0,currentPage)}
-        {load && Array(itemOnPage).fill(itemOnPage).map((__, index) => <Skelet key={index} />)}
+        {copyList
+          .map((el) => <Item key={el.name.common} el={el} />)
+          .slice(0, currentPage)}
+        {isLoading && <SkeletsMain count={itemsOnPage} loading={isLoading} />}
       </div>
 
-      {(list.length > itemOnPage && (list.length > currentPage)) && <Loadmore>
-        <Btn btn name="Loadmore" handler={() => setCurrentPage(prev => prev += itemOnPage)} />
-      </Loadmore>}
+      {isSuccess &&
+        data.length > itemsOnPage &&
+        copyList.length > currentPage && (
+          <Loadmore>
+            <Btn
+              btn
+              name="Loadmore"
+              handler={() => setCurrentPage((prev) => (prev += itemsOnPage))}
+            />
+          </Loadmore>
+        )}
 
-      {!list.length && <div className="error">There are no countries matching your filter parameters. Try to change your parameters.</div>}
+      {isSuccess && !copyList.length && <NotFound />}
     </div>
-  )
-}
+  );
+};
 
-export default MainPage
+export default MainPage;

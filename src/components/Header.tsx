@@ -1,10 +1,10 @@
-import styled from "styled-components"
-import Switcher from "./Switcher"
+import styled from "styled-components";
+import Switcher from "./Switcher";
 
 // Styles
 const HeaderBox = styled.header`
   background: var(--color-header);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin: 0 0 45px;
   position: sticky;
   top: 0;
@@ -17,18 +17,20 @@ const HeaderBox = styled.header`
   }
   @media screen and (max-width: 700px) {
     margin: 0 0 30px;
-    .container { height: 60px; }
+    .container {
+      height: 60px;
+    }
   }
-`
+`;
 const HeaderName = styled.div`
   font-size: 24px;
   font-weight: 800;
   @media screen and (max-width: 700px) {
     font-size: 18px;
   }
-`
+`;
 
-const Header: React.FC = () => {
+const Header = (): JSX.Element => {
   return (
     <HeaderBox>
       <div className="container">
@@ -36,7 +38,7 @@ const Header: React.FC = () => {
         <Switcher />
       </div>
     </HeaderBox>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
