@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 type ItemProps = {
   el: CountryType;
+  index: number;
 };
 
 // Styled
@@ -46,11 +47,11 @@ const ItemTitle = styled.span`
 `;
 
 const Item = (props: ItemProps): JSX.Element => {
-  const { el } = props;
+  const { el, index } = props;
   const slug = el.cca3.toLowerCase();
 
   return (
-    <div>
+    <div data-testid={`countryItem-${index}`}>
       <Itembox to={slug}>
         <ItemImg src={el.flags.svg} alt="" />
         <ItemDetails>

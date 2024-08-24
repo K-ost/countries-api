@@ -1,28 +1,17 @@
 import * as Factory from "factory.ts";
 import { CountryType } from "../types";
-
-const countries: { name: string; region: string }[] = [
-  {
-    name: "United States",
-    region: "America",
-  },
-  { name: "Canada", region: "America" },
-  {
-    name: "Norway",
-    region: "Europe",
-  },
-];
+import { testCountries } from "../utils/utils";
 
 // Country
 export const mockedCountry = Factory.Sync.makeFactory<CountryType>({
   name: Factory.each((i) => ({
-    common: countries[i].name,
+    common: testCountries[i].name,
     official: "common name",
     nativeName: {
       deu: { official: "official", common: "common" },
     },
   })),
-  region: Factory.each((i) => countries[i].region),
+  region: Factory.each((i) => testCountries[i].region),
   tld: ["tld"],
   cca2: "cca2",
   ccn3: "ccn3",

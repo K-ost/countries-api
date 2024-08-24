@@ -41,7 +41,9 @@ const MainPage = (): JSX.Element => {
 
       <div className="grid grid-4">
         {copyList
-          .map((el) => <Item key={el.name.common} el={el} />)
+          .map((el, index) => (
+            <Item key={el.name.common} el={el} index={index} />
+          ))
           .slice(0, currentPage)}
         {isLoading && <SkeletsMain count={itemsOnPage} loading={isLoading} />}
       </div>

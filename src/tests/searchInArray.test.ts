@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { objectToString, searchInArray } from "../utils/utils";
 import { mockedCountry, testedObject, testedObjectSimple } from "./factories";
 
-const countries = mockedCountry.buildList(3);
+const countries = mockedCountry.buildList(12);
 
 describe("Utils", () => {
   it("Search request is empty", () => {
@@ -16,17 +16,17 @@ describe("Utils", () => {
   });
 
   it("Region is matched", () => {
-    const list = searchInArray(countries, "", "europe");
-    expect(list).toHaveLength(1);
+    const list = searchInArray(countries, "", "Europe");
+    expect(list).toHaveLength(5);
   });
 
   it("Region is matched 2", () => {
-    const list = searchInArray(countries, "", "america");
-    expect(list).toHaveLength(2);
+    const list = searchInArray(countries, "", "America");
+    expect(list).toHaveLength(4);
   });
 
   it("Region is empty", () => {
-    const list = searchInArray(countries, "", "africa");
+    const list = searchInArray(countries, "", "Oceania");
     expect(list).toHaveLength(0);
   });
 
