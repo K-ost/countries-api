@@ -9,7 +9,7 @@ import { API_URI } from "../constants";
 import { mockedCountry } from "./factories";
 
 const queryClient = new QueryClient();
-const wrapper = (
+export const wrapper = (
   <MemoryRouter>
     <QueryClientProvider client={queryClient}>
       <App />
