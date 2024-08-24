@@ -22,6 +22,10 @@ export const objectToString = (obj: any, field: string | null): string => {
     .join(", ");
 };
 
+export const transformString = (str: number) => {
+  return str.toLocaleString("en-US");
+};
+
 type SimpleCountry = {
   name: string;
   region: "America" | "Europe" | "Asia" | "Africa" | "Oceania";

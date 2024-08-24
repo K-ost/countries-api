@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { objectToString, searchInArray } from "../utils/utils";
+import { objectToString, searchInArray, transformString } from "../utils/utils";
 import { mockedCountry, testedObject, testedObjectSimple } from "./factories";
 
 const countries = mockedCountry.buildList(12);
@@ -43,5 +43,14 @@ describe("Utils", () => {
   it("objectToString - internal object second key", () => {
     const result = objectToString(testedObject, "age");
     expect(result).toStrictEqual("45, 32, 27");
+  });
+
+  it("To locale string", () => {
+    const result = transformString(100);
+    const result2 = transformString(1000);
+    const result3 = transformString(10000000);
+    expect(result).toStrictEqual("100");
+    expect(result2).toStrictEqual("1,000");
+    expect(result3).toStrictEqual("10,000,000");
   });
 });

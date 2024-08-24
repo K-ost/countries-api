@@ -4,7 +4,7 @@ import BordersList from "../components/BordersList";
 import Btn from "../components/Btn";
 import useGetData from "../hooks/getData";
 import Page404 from "../components/Page404";
-import { objectToString } from "../utils/utils";
+import { objectToString, transformString } from "../utils/utils";
 import DetailsList from "../components/DetailsList";
 import Image from "../components/Image";
 
@@ -26,7 +26,7 @@ const DetailPage = (): JSX.Element => {
       key: "Native Name",
       value: objectToString(country.name.nativeName, "official"),
     },
-    { key: "Population", value: country.population.toString() },
+    { key: "Population", value: transformString(country.population) },
     { key: "Region", value: country.region },
     { key: "Sub Region", value: country.subregion },
     { key: "Capital", value: country.capital[0] },

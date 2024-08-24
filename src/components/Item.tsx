@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { CountryType } from "../types";
 import { Link } from "react-router-dom";
+import { transformString } from "../utils/utils";
 
 type ItemProps = {
   el: CountryType;
@@ -56,7 +57,7 @@ const Item = (props: ItemProps): JSX.Element => {
         <ItemImg src={el.flags.svg} alt="" />
         <ItemDetails>
           <ItemTitle>{el.name.common}</ItemTitle>
-          <span>Population: {el.population}</span>
+          <span>Population: {transformString(el.population)}</span>
           <span>Region: {el.region}</span>
           <span>Capital: {el.capital}</span>
         </ItemDetails>
