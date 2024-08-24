@@ -1,10 +1,10 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import nock from "nock";
 import { userEvent } from "@testing-library/user-event";
-import { beforeEach, describe, expect, it } from "vitest";
-import App from "../App";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import nock from "nock";
+import App from "../App";
 import { API_URI } from "../constants";
 import { mockedCountry } from "./factories";
 
@@ -51,5 +51,16 @@ describe("App", () => {
     expect(
       screen.getByText(/There are no countries matching/)
     ).toBeInTheDocument();
+  });
+
+  it("Router - moving to details page", async () => {
+    nock(API_URI).get("/alpha/cca0").reply(200, [countries[0]]);
+    const searchInput = screen.getByTestId("searchTest");
+    const itemLink = screen.getByTestId("countryItem-0");
+    await userEvent.type(searchInput, "stat");
+    await userEvent.click(itemLink);
+    await screen.findByText(/Capital/);
+    expect(screen.getByText(/United States/)).toBeInTheDocument();
+    expect(screen.getByText(/Washington/)).toBeInTheDocument();
   });
 });

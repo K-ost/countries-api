@@ -15,7 +15,7 @@ export const mockedCountry = Factory.Sync.makeFactory<CountryType>({
   tld: ["tld"],
   cca2: "cca2",
   ccn3: "ccn3",
-  cca3: "cca3",
+  cca3: Factory.each((i) => `cca${i}`),
   independent: true,
   status: "status",
   borders: ["borders"],
@@ -30,7 +30,7 @@ export const mockedCountry = Factory.Sync.makeFactory<CountryType>({
     root: "root",
     suffixes: ["suffix"],
   },
-  capital: ["capital"],
+  capital: Factory.each((i) => testCountries[i].capital),
   altSpellings: ["altSpelling"],
   subregion: "subregion",
   languages: {
